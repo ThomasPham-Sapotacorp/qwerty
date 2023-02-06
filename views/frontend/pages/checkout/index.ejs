@@ -1,0 +1,276 @@
+<%  
+    const linkPrefix=`/`+systemConfig.prefixFrontend ; 
+    const BookUpload    = 'upload/books/';
+%>
+
+
+    <% if(errors) {%>
+        <div class="alert defeat add" style="display: none;">
+            <% errors.forEach((errors) => { %>
+            <span id = "<%= errors.param%>"><%= errors.msg%> </span><br>
+            <%})%>
+        </div>
+    <%} %> 
+
+    <div class="title title_checkout">
+        <i class="fas fa-map-marker-alt fa-3x"></i>
+        <h2>Thông tin giao hàng</h2>
+    </div>
+    
+    <form id='checkout' action="/checkout" method="POST">
+        <div class="info">          
+            <span class="error" id="name"></span>
+            <input id="name" type="text" name="name" placeholder="Tên người nhận" value="<%= userInfo.name %>"> 
+            <span class="error" id="phone"></span>
+            <input id="phone" type="number" name="phone" placeholder="Số điện thoại">  
+            <span class="error" id="address"></span>
+            <input id="address" type="text" name="address" placeholder="Địa chỉ" value="<%= userInfo.address %>">
+            <input type="text" name="note" placeholder="Ghi chú">
+        </div>
+        
+        <div class="cart">
+            <div class="title title_checkout">
+                <i class="fas fa-shopping-cart fa-3x"></i>
+                <h2>Giỏ hàng</h2>
+            </div>
+            <table>
+                <%if(items && items.length > 0){%>
+                    <% items.forEach((item) => {%>
+                        <tr>
+                            <th>
+                                <img src=<%=BookUpload + item.thumbnail%> alt=<%= item.name%> >
+                                <span ><%= item.name%></span>
+                            </th>
+                            <td> <span ><%= item.qty%></span></td>
+                            <td>
+                                <i class="fas fa-money-check-alt"></i>
+                                <span class="ttpr price_js" price=<%=item.price%> ><%= item.totalprice%></span>
+                            </td>
+                            <td style="width: 30px;">
+                                <a href="/checkout/delete/<%= item.id %>"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    <%})%>
+                <%}else{ %>  
+                    <tr>
+                        <th class="no-product"><h2>Không có sản phẩm</h2></th>
+                    </tr>
+                    
+                 <% } %>
+                
+            </table>
+        </div>
+
+        <div class="total">
+            <span style="display:block; margin-bottom: 2%; font-size: 20px;">Thanh toán khi nhận hàng</span>
+            <div class="ship">
+                <span style="position: absolute; right: 38%;">Ship:</span> <span class="total-price price_js">25000</span>
+            </div>
+            <div>
+                <span style="position: absolute; right: 38%;">Total:</span> <span class="total-price price_js"><%= total + 25000 %> </span>
+            </div>
+            
+        </div>
+
+
+
+        <div class="submit">
+            <a href="" class="cancel" type="button">Tiếp tục chọn hàng</a>
+            <input type="hidden" name="total" value=<%= total + 25000 %>>
+            <%if(items.length > 0) { %>
+                <button class='submit_checkout' type="submit">Mua hàng</button>
+            <% } %>
+            
+        </div>
+
+        </div>
+    
+
+    </form>
+
+
+
+    <style>
+        section {
+            margin: 140px auto 0px;
+            background-color: #fff;
+        }
+
+        .title_checkout {
+            text-align: center;
+            align-items: center;
+        }
+
+        .title_checkout>h2 {
+            font-size: 35px;
+            margin: 15px 10px;
+        }
+
+        form#checkout table {
+            border-bottom: 1px solid black;
+            border-top: 1px solid black;
+            width: 52%;
+            margin: auto;
+            padding-bottom: 20px;
+        }
+
+        th>img {
+            width: 60px;
+        }
+
+        th {
+            height: 100%;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            margin-top: 25px;
+        }
+
+        th.no-product {
+            justify-content: center;
+        }
+
+        th.no-product>h2 {
+            font-size: 30px;
+            color: red;
+        }
+
+        td {
+            width: 150px;
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            padding-top: 25px;
+        }
+
+        .total,
+        .submit {
+            text-align: end;
+            margin-right: 24%;
+            margin-top: 3%;
+            padding-bottom: 30px;
+        }
+        .submit{
+            margin-top: 0;
+        }
+
+        .total>div {
+            font-size: 25px;
+            margin: 20px 0;
+        }
+
+        span.total-price {
+            color: red;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+
+        th>span {
+            padding-left: 10px;
+        }
+
+        a.cancel,
+        button.submit_checkout {
+            box-shadow: 2px 3px 5px #ccc;
+            font-size: 14px;
+            color: #fff;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px;
+            border-radius: 25px;
+            width: 140px;
+            display: inline-block;
+            background-image: linear-gradient(to right, #ff9800, #F7695D);
+            transition: transform .2s;
+            border: none;
+            margin-left: 4%;
+        }
+
+        a.cancel {
+            background-image: linear-gradient(to right, #6b6357, #89da3e);
+        }
+
+
+        .info>label{
+            display: block;
+            text-align: start;
+            margin-left: 24%;
+            padding-top: 10px;
+        }
+        .info{
+            text-align: center;
+        }
+
+
+
+        form#checkout input[type=text],
+        form#checkout input[type=password],
+        form#checkout input[type=number] {
+            background-color: #f6f6f6;
+            border: none;
+            color: #0d0d0d;
+            padding: 8px 20px;
+            text-align: start;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 5px;
+            width: 50%;
+            border: 2px solid #f6f6f6;
+            -webkit-transition: all 0.5s ease-in-out;
+            -moz-transition: all 0.5s ease-in-out;
+            -ms-transition: all 0.5s ease-in-out;
+            -o-transition: all 0.5s ease-in-out;
+            transition: all 0.5s ease-in-out;
+            -webkit-border-radius: 5px 5px 5px 5px;
+            border-radius: 5px 5px 5px 5px;
+        }
+
+
+        form#checkout input[type=text],
+        form#checkout input[type=password],
+        form#checkout input[type=number] :placeholder {
+            color: #cccccc;
+        }
+
+        span.error{
+            display: block;
+            text-align: start;
+            margin-left: 25%;
+            font-size: 15px;
+            color: red;
+            font-weight: 500;
+        }
+    </style>
+
+<script>
+
+    
+    function numberWithCommas(x) {
+        var parts = x.toString().split(".");
+        parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,".");
+        return parts.join(",");
+    }
+
+    let price = document.getElementsByClassName('price_js');
+    for(let i = 0; i < price.length; i++){
+        document.getElementsByClassName('price_js')[i].innerHTML = numberWithCommas(price[i].innerHTML)
+    }
+
+
+    let a = document.getElementsByClassName("alert")[0].getElementsByTagName("span");
+    let b = document.getElementsByClassName("info")[0].getElementsByTagName("span");
+
+    for(let i = 0; i < a.length ; i++) {
+        for(let j = 0; j < b.length ; j++) {
+            c = b[j];
+            if ( a[i].id == c.id){
+                c.innerHTML = a[i].innerText;
+            } 
+        }
+       
+    }
+
+
+
+</script>

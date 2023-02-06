@@ -1,0 +1,23 @@
+
+<% statusFilterHelper = (statusFilter, params, linkPrefix) => { %>
+    <% statusFilter.forEach((item) => { 
+        let link = linkPrefix  + '?status='+ item.name;
+        if (params.search) link += '&search=' + params.search;
+        if (params.group) link += '&group=' + params.group;
+        if (params.category) link += '&category=' + params.category;
+    %>
+        <a class="button <%=item.class%>" href="/<%= link%>" > <%= item.name + " (" + item.count + ")" %> </a>
+    <%})%>    
+<% } %> 
+
+
+<% BillstatusFilterHelper = (statusFilter, params, linkPrefix) => { %>
+    <% statusFilter.forEach((item) => { 
+        let link = linkPrefix  + '?status='+ item.value;
+        if (params.search) link += '&search=' + params.search;
+        if (params.group) link += '&group=' + params.group;
+        if (params.category) link += '&category=' + params.category;
+    %>
+        <a class="button <%=item.class%>" href="/<%= link%>" > <%= item.name + " (" + item.count + ")" %> </a>
+    <%})%>    
+<% } %> 

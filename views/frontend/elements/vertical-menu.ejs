@@ -1,0 +1,62 @@
+<% 
+    const linkPrefix =systemConfig.prefixFrontend + '/';
+%>
+
+<div class="vertical_menu">
+    <div class="menu_title">
+        <h2>Danh mục sản phẩm</h2>
+    </div>
+
+    <ul class="menu_content">
+         <% itemVertical.classes.forEach( (itemClass) => { %>
+            <li class="dropdown"><a href= <%= linkPrefix + itemClass.slug + '/'%>  style="font-size: 15px; text-transform: capitalize"><%= itemClass.name%></a>
+    
+                <div class="dropdown-menu" style="width: 700px">
+                    <div class="dropdown-menu-row">
+                        <% for(let i = 0; i < 3; i++){ %>
+                            <% if(itemVertical.groups[i].class.name == itemClass.name){ %>
+                                <div class="category_name"> 
+                                    <h3><a href= <%= linkPrefix + itemClass.slug + '/' + itemVertical.groups[i].slug +'/' %> >
+                                            <%= itemVertical.groups[i].name%></a>
+                                    </h3>
+                                    <ul>
+                                        <% itemVertical.categories.forEach( (itemCate) => { %>
+                                            <% if(itemVertical.groups[i].name == itemCate.group.name){ %>
+                                                <li>
+                                                    <a href=<%= linkPrefix + itemClass.slug + '/' + itemVertical.groups[i].slug +'/' + itemCate.slug %>><%= itemCate.name%></a>
+                                                </li>
+                                            <% } %> 
+                                        <% }) %>
+                                    </ul>
+                                </div>
+                            <% } %> 
+                        <% } %>
+                    </div>
+                    <div class="dropdown-menu-row">
+                        <% for(let i = 3; i < 6; i++){ %>
+                            <% if(itemVertical.groups[i].class.name == itemClass.name){ %>
+                                <div class="category_name"> 
+                                    <h3><a href= <%= linkPrefix + itemClass.slug + '/' + itemVertical.groups[i].slug +'/' %> >
+                                            <%= itemVertical.groups[i].name%></a>
+                                    </h3>
+                                    <ul>
+                                        <% itemVertical.categories.forEach( (itemCate) => { %>
+                                            <% if(itemVertical.groups[i].name == itemCate.group.name){ %>
+                                                <li>
+                                                    <a href=<%= linkPrefix + itemClass.slug + '/' + itemVertical.groups[i].slug +'/' + itemCate.slug %>><%= itemCate.name%></a>
+                                                </li>
+                                            <% } %> 
+                                        <% }) %>
+                                    </ul>
+                                </div>
+                            <% } %> 
+                        <% } %>
+                    </div>
+                
+                </div>
+            </li>
+        <% }) %> 
+
+    </ul>
+
+</div>

@@ -1,0 +1,19 @@
+<% 
+    selectHelper = (name, items, optionSelected= '') => {
+        let xhtml = '';
+        let xhtml_id = '';
+        items.forEach((item) =>{
+            if (name == 'category'){
+                xhtml_id = `classID="${item.group.class}" groupID="${item.group._id}"`;
+            }
+
+            if(String(item._id) == String(optionSelected)){
+                xhtml +=  `<option ${xhtml_id} value="${item._id}" selected="selected">${item.name}</option>`;
+            }else{
+                xhtml +=  `<option ${xhtml_id} value="${item._id}">${item.name} </option>`;
+            }
+        });
+            
+        return `<select name=${name} class="form-control" id="select-group" onchange="getClass(this)"> ${xhtml} </select>`;
+    }
+%>

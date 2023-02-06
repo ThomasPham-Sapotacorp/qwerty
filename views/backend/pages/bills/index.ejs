@@ -1,0 +1,190 @@
+<% include ./../../helpers/status %> 
+<% include ./../../helpers/filter-status %> 
+<% include ./../../helpers/pagination %>
+<% include ./../../helpers/action %>
+
+<% 
+    const type = 'bills'; 
+    const linkPrefix =systemConfig.prefixAdmin + `/${type}/`;
+%>
+
+
+<div class=" title-page">
+	<span>Item</span>
+	<div>
+		<% BillstatusFilterHelper(statusFilter, params, linkPrefix)%>
+	</div>
+
+	<div class="box search_box " style=" padding-right: 30px; margin-left: auto;">
+		<form id="search" action="<%= linkPrefix + '?status=' + params.currentStatus%>" method="GET">
+			<input type="text" placeholder="Nhập tên sản phẩm" name="search" value="<%=params.search%>">
+			<button class="btn_search" type="submit" aria-label="tìm kiếm">
+				<i class="fas fa-search fa-sm greeniconcolor"></i>
+			</button>
+		</form>
+	</div>
+</div>
+
+<div class=" title-page">
+
+	<div class="sort dropdown">
+		<button id="sort" class="dropbtn">Sắp xếp</button>
+		<div id="sortDropdown" class="dropdown-content">
+			<a href="<%= linkPrefix +'sort/name/asc'%>">Sắp xếp theo tên (a - z)</a>
+			<a href="<%= linkPrefix +'sort/name/desc'%>">Sắp xếp theo tên (z - a)</a>
+			<a href="<%= linkPrefix +'sort/ordering/asc'%>">Sắp xếp theo ordering tăng dần</a>
+			<a href="<%= linkPrefix +'sort/ordering/desc'%>">Sắp xếp theo ordering giảm dần</a>
+		</div>
+	</div>
+</div>
+
+
+<!-- <%= JSON.stringify(items) %> -->
+
+<% Object.keys(messages).forEach( (type) => { %>
+	<div class="alert <%= type%>">
+		<% messages[type].forEach((messages) => { %>
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+			<strong><%= type%>!</strong>  <%= messages%>
+        <%})%>	
+	</div> 
+<% }) %> 
+
+ 
+<div class="content">
+	<form name="formit" action= "" method="post">
+		<div class="content-heading">
+			
+		</div>
+		<div>
+			<table style="width: 100%;font-size: 13px; line-height: 25px;">
+				<thead>
+					<tr>
+						<th id="checkbox"><input type="checkbox" class="checkall"></th>
+						<th id="stt">STT</th>
+						<th id="name" style="width: 140px">Customer</th>
+						<th id="phone" style="width: 70px">Phone</th>
+						<th id="address">Address</th>
+						<th id="status" style="width: 140px">Status</th>
+						<th id="date">Date</th>
+						<th id="detail">Detail</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% items.forEach( (item, i) => { %>
+						<tr>
+							<td >
+								<input type="checkbox" class="check" name="id" value="<%= item.id %>">
+							</td>
+							<td class="center"><%= i +1 %></td>
+							<td class="start"><%= item.name %></td>
+							<td class="start"><%= item.phone %></td>
+							<td class="start"><%= item.address %></td>
+							<td class="center">
+								<% statusBillHelper(item.status, item.id, linkPrefix)%>
+							</td>
+                            <td style="width: 170px">    
+                                <i class="far fa-plus-square"></i> <%= moment(item.created.time).format(systemConfig.format_long_time) %> <br />
+                            </td>    
+							<td>
+								<a class="xemthem">+</a>
+								<div class="detail-product" id="modal1">
+									<div class="detail-overlay" id="outside"></div>
+					
+									<div class="detail-body">
+										<span class="close">&times;</span>
+										<div class="product_content">
+											<div id="info" class=" product_view_tab_content" style=" border-bottom: 1px solid #777;">
+												<table class="table-detail" style="width:100%">
+													<tr>
+														<th>Mã đơn hàng</th>
+														<td><%= item.id%></td>
+													</tr>
+													<tr>
+														<th>Created</th>
+														<td style="width: 170px">
+															<i class="far fa-plus-square"></i> <%= moment(item.created).format(systemConfig.format_long_time) %> <br />
+														</td>
+													</tr>
+													<tr>
+														<th>Tên người nhận</th>
+														<td><%= item.name%></td>
+													</tr>
+													<tr>
+														<th>Phone</th>
+														<td><%= item.phone%></td>
+													</tr>
+													<tr>
+														<th>Address</th>
+														<td><%= item.address%></td>
+													</tr>
+													<tr>
+														<th>Status</th>
+														<td><%= item.status%></td>
+													</tr>
+													<tr>
+														<th>Cart</th>
+														<td>
+															<% item.cart.forEach((cart) => {%>
+																<span></span>
+																Mã hàng:  <%= cart.id%><br>
+																Tên hàng: <%= cart.name%><br>
+																Số lượng: <%= cart.qty%><br>
+																Tổng giá: <%= cart.totalprice%><br>
+																
+															<%}) %> 
+															
+															
+														</td>
+														
+													</tr>
+													<tr>
+														<th>Note</th>
+														<td><%= item.note%></td>
+													</tr>
+													
+													
+													
+													
+												</table>
+											</div>
+											
+					
+										</div>
+					
+					
+									</div>
+					
+								</div>
+							</td>                        
+						</tr>
+					<% }); %> 
+					
+					
+					
+	
+				</tbody>
+	
+			</table>
+	
+		</div>
+	</form>
+	
+	
+    <%- paginationHelper(params.pagination, linkPrefix, params.currentStatus, params.search)%>
+
+</div>
+
+<style>
+	td>span {
+		height: 0.5px;
+    	background: #dbcdcd;
+		display:block;
+	}
+	td>span:nth-child(1) {
+		display: none;
+	}
+</style>
+
+<script src="/backend/scripts/book.js"></script>
+

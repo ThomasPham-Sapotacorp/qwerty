@@ -1,0 +1,30 @@
+<% 
+actionHelper = (linkPrefix)=> {
+    let action = [
+        {value:"" , name: "Choose Action"},
+        {value:"change-status/active" , name: "Active"},
+        {value:"change-status/inactive" , name: "InActive"},
+        {value:"change-ordering/" , name: "Change Ordering"},
+        {value:"delete/" , name: "Delete"},
+    ];
+
+    let xhtmlAction = '';
+    action.forEach((action) => {
+        let link = linkPrefix + action.value;
+        xhtmlAction += `<option value="${link}">${action.name}</option>`;
+    });
+
+    return `
+            <div class="action">
+				<select id="action-select" onChange="change_action();">
+					${xhtmlAction}
+				</select>
+				<button id="apply" class="apply" disabled>Apply</button>
+			</div>
+            `;
+} %>
+
+
+
+
+            

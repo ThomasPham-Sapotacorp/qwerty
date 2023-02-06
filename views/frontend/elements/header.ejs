@@ -1,0 +1,64 @@
+<header>
+    <div class="container">
+        <div class="header_logo">
+            <div class="logo">
+                <a href="#">
+                    <img src="thn.jpg"
+                        alt="FAHASA.COM">
+                </a>
+            </div>
+            <div class="box search_box ">
+                <form id="search" action="/result" method="get">
+                    <input type="text" placeholder="Nhập tên sản phẩm" id="search_Input" name="search" value="">
+                    <button class="btn_search" type="submit" aria-label="tìm kiếm"><i
+                            class="fas fa-search fa-lg greeniconcolor"></i></button>
+                </form>
+            </div>
+            <div class="menubar">
+                <div class="noti-top">
+                    <a href="">
+                        <i class="fas fa-bell fa-lg greeniconcolor"></i>
+                        <span>Thông báo</span>
+                    </a>     
+                </div>
+                <div class="cart-top">
+                    <a href="/cart">
+                        <i class="fas fa-shopping-cart fa-lg greeniconcolor"></i>
+                        <span>Giỏ hàng</span>  
+                        <span class="quality"><%=countCart%></span>                     
+                    </a>
+                </div>
+                <% include ./../helpers/show-menu-user %> 
+                <%- showMenuUser(userInfo) %>
+    
+                <figure>
+                    <% Object.keys(messages).forEach( (type) => { %>
+                        <div class="alert" id="login-alert">
+                            <% messages[type].forEach((messages) => { %>
+                                <strong><%= type%>!</strong>  <%= messages%>
+                                <span style="color: #fff; cursor: pointer;" class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+                                
+                            <%})%>	
+                        </div> 
+                    <% }) %> 
+                </figure>
+
+               
+                <!-- <div>
+                    <% Object.keys(messages).forEach( (type) => { %>
+                            <% messages[type].forEach((messages) => { %>
+                                <%= messages%>
+                            <%})%>	
+                    <% }) %> 
+                </div> -->
+               
+            </div>
+        </div>
+        <% if(header_menu == true){ %>
+            <div class="header_menu">
+                <% include ./vertical-menu.ejs %>
+                <div class="icon_menu"></div>
+            </div>
+        <% } %> 
+    </div>
+</header>

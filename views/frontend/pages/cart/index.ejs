@@ -1,0 +1,218 @@
+<% 
+	const BannerUpload  = 'upload/banners/';
+    const BookUpload    = 'upload/books/';
+    const linkPrefix	= `/`+systemConfig.prefixBlog ;
+%> 
+
+
+    <div class="title">
+        <i class="fas fa-shopping-cart fa-3x"></i>
+        <h2>Order summary</h2>
+    </div>
+    <form action="/cart/checkout" method="POST">
+        <table>
+            <%if(items.length > 0){%>
+                <% items.forEach((item) => {%>
+                    <tr>
+                        <th>
+                            <img src=<%=BookUpload + item.thumbnail%> alt=<%= item.name%> >
+                            <span ><%= item.name%></span>
+                        </th>
+                        <td>
+                            <a class="minus"><i class="fas fa-minus grayiconcolor"></i></a>
+                            <input class="qty price_js" type="number" min="1" name="qty" value=<%= item.qty%>>
+                            <a class="add"><i class="fas fa-plus grayiconcolor"></i></a>
+                        </td>
+                        <td>
+                            <i class="fas fa-money-check-alt"></i>
+                            <span class="ttpr price_js" price=<%=item.price%> value="<%= item.totalprice%>"><%= item.totalprice%></span>
+                        </td>
+                        <td style="width: 30px;">
+                            <a href="/cart/delete-item/<%= item.id %>"><i class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                <%})%>
+            <%}else{ %>  
+                <tr>
+                    <th class="no-product"><h2>Không có sản phẩm</h2></th>
+                </tr>
+                
+             <% } %>
+            
+        </table>
+        <div class="total">
+            <span>Total:</span> <span class="total-price price_js" id="total-price"></span>
+        </div>
+
+        <div class="submit">
+            <a href="" class="cancel" type="button">Tiếp tục chọn hàng</a>
+            <%if(items.length > 0) { %>
+                <button type="submit">Thanh toán</button>
+            <% } %>
+        </div>
+        
+        
+    </form>
+    
+
+
+<style>
+    section {
+        margin: 140px auto 0px;
+        background-color: #fff;
+    }
+    .title {
+        text-align: center;
+        align-items: center;
+    }
+    .title>h2{
+        font-size: 40px;
+        margin: 15px 10px;
+    }
+    table{
+        border-bottom: 1px solid black;
+        border-top: 1px solid black;
+        width: 80%;
+        margin: auto;
+        padding-bottom: 20px;
+    }
+    
+    th>img{
+        width: 60px;
+    }
+    th{
+        height: 100%;
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        margin-top: 25px;
+    }
+    th.no-product{
+        justify-content: center;
+    }
+    th.no-product>h2{
+        font-size: 30px;
+        color: red;
+    }
+    td{
+        width: 150px;
+        text-align: end;
+        font-size: 16px;
+        font-weight: 600;
+        padding-top: 25px;
+    }
+    .total,.submit{
+        text-align: end;
+        margin-right: 13%;
+        margin-top: 3%;
+        padding-bottom: 30px;
+    }
+    .total>span{
+        font-size: 25px;
+    }
+    span.total-price{
+        color: red;
+        font-weight: 600;
+        margin-left: 10px;
+    }
+    th>span{
+        padding-left: 10px;
+    }
+    a.cancel, .submit>button{
+        box-shadow: 2px 3px 5px #ccc;
+        font-size: 14px;
+        color: #fff;
+        font-weight: bold;
+        text-align: center;
+        padding: 12px;
+        border-radius: 25px;
+        width: 140px;
+        display: inline-block;
+        background-image: linear-gradient(to right, #ff9800, #F7695D);
+        transition: transform .2s;
+        border: none;
+        margin-left: 4%;
+    }
+    a.cancel{
+        background-image: linear-gradient(to right, #6b6357, #89da3e);
+    }
+
+    input[type=number] {
+        background-color: #f6f6f6;
+        border: none;
+        color: #0d0d0d;
+        padding: 3px 0px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 5px;
+        width: 20%;
+        border: 2px solid #f6f6f6;
+        -webkit-transition: all 0.5s ease-in-out;
+        -moz-transition: all 0.5s ease-in-out;
+        -ms-transition: all 0.5s ease-in-out;
+        -o-transition: all 0.5s ease-in-out;
+        transition: all 0.5s ease-in-out;
+        -webkit-border-radius: 5px 5px 5px 5px;
+        border-radius: 5px;
+    }
+</style>
+
+<script>
+
+    function numberWithCommas(x) {
+        var parts = x.toString().split(".");
+        parts[0]=parts[0].replace(/\B(?=(\d{3})+(?!\d))/g,".");
+        return parts.join(",");
+    }
+
+    let price = document.getElementsByClassName('price_js');
+    for(let i = 0; i < price.length; i++){
+        document.getElementsByClassName('price_js')[i].innerHTML = numberWithCommas(price[i].innerHTML)
+    }
+
+
+    let minus = document.getElementsByClassName("minus")
+    let add = document.getElementsByClassName("add")
+    let qty = document.getElementsByClassName("qty")
+    let ttpr = document.getElementsByClassName("ttpr")
+    let ttprAll = document.getElementById("total-price")
+
+
+    function ttAll(){
+        let sum = 0;
+        for(let i = 0; i< ttpr.length; i++){
+            sum += parseInt(ttpr[i].getAttribute('value'));
+        }
+        ttprAll.innerText = numberWithCommas(sum);
+    }
+    ttAll();
+    
+    
+    for(let i = 0; i< qty.length; i++){
+        minus[i].onclick = function() {
+            qty[i].stepUp(-1);
+            ttpr[i].innerText = numberWithCommas(document.getElementsByClassName("qty")[i].value * ttpr[i].getAttribute("price"))
+            ttpr[i].setAttribute('value', document.getElementsByClassName("qty")[i].value * ttpr[i].getAttribute("price"))
+            ttAll();
+        }
+
+        add[i].onclick = function() {
+            qty[i].stepUp(1);
+            document.getElementsByClassName("ttpr")[i].innerText = numberWithCommas(document.getElementsByClassName("qty")[i].value * ttpr[i].getAttribute("price"))
+            ttpr[i].setAttribute('value', document.getElementsByClassName("qty")[i].value * ttpr[i].getAttribute("price"))
+            ttAll();
+        }
+
+        qty[i].addEventListener('change', function(){
+            ttpr[i].innerText = numberWithCommas(document.getElementsByClassName("qty")[i].value * ttpr[i].getAttribute("price"))
+            ttpr[i].setAttribute('value', document.getElementsByClassName("qty")[i].value * ttpr[i].getAttribute("price"))
+            ttAll();
+        });
+    }
+
+
+
+
+</script>

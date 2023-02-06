@@ -1,0 +1,83 @@
+<% paginationHelper = (pagination, linkPrefix, currentStatus, search)=> {
+
+    let totalItems = pagination.totalItems;
+    let totalItemsPerPage = pagination.totalItemsPerPage;
+    let currentPage = pagination.currentPage;
+    let pageRanges = pagination.pageRanges;
+
+    let totalPages = Math.ceil(totalItems/totalItemsPerPage);
+    let middle = Math.ceil(pageRanges/2);
+    
+    let begin = ( currentPage - 1 ) * totalItemsPerPage;
+    let end   = ( currentPage - 1 ) * totalItemsPerPage + totalItemsPerPage ;
+
+    if (begin > totalItems) begin = totalItems;
+
+    let ItemsPerPage = totalItemsPerPage - ( ((totalItemsPerPage*currentPage - totalItems) > 0) ?(totalItemsPerPage*currentPage - totalItems) : 0 )
+    
+    let xhtmlPagination = '', xhtmlStart = '', xhtmlEnd = '', xhtmlNext = '', xhtmlPrevios= '' ;
+    let xhtmlPage = '' ;
+
+    let link = linkPrefix + '?status='+ currentStatus;
+    if (search) link += '&search=' + search + '&page=';
+    else link += '&page=';
+    
+    if(currentPage > 1){
+        xhtmlStart = `<a href="${link}1">Start</a>`;
+        xhtmlPrevios = `<a href="${link}${currentPage - 1}">&laquo;</a>`;
+    }
+    
+    if(currentPage < totalPages){
+        xhtmlEnd = `<a href="${link}${totalPages}">End</a>`;
+        xhtmlNext = `<a href="${link}${currentPage + 1}">&raquo;</a>`;
+    }
+    
+
+    // phan trang
+    let min = currentPage - middle + 1;
+    let max = min + pageRanges - 1;
+
+    if(min <= 1){
+        min = 1;
+        max = pageRanges;
+    }
+
+    if(max >= totalPages){
+        max = totalPages;
+        min = max - pageRanges + 1;
+        if(min <= 1){
+            min = 1;
+        }
+    }
+
+
+    for(let i = min; i <= max; i++){
+        if (i == currentPage){
+            xhtmlPage += `<a class="active">${i}</a>`;
+        }else {
+            xhtmlPage +=`<a href="${link}${i}">${i}</a>`;
+        }
+        
+    }
+
+
+    xhtmlPagination = xhtmlStart + xhtmlPrevios + xhtmlPage + xhtmlNext + xhtmlEnd;
+
+
+    return `
+        <div class="content-footer" style="width: 100%">
+            <div>
+                <div>
+                    <span>Total product: ${totalItems}</span>
+                    <span>Total page: ${totalPages}</span>
+                </div>
+                <div>
+                    <span>Number of elements on the page: ${ItemsPerPage}</span>
+                </div>
+            </div>
+            <div class="pagination">
+                ${xhtmlPagination}
+            </div>
+        </div>`;
+    }
+%>

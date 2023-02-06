@@ -1,0 +1,8 @@
+<% 
+    imgHelper = (folder, imgName, alt="image", className="center") => {
+        if (!imgName){
+            imgName = 'avatar_null.jpg'
+        }
+        return `<img class="${className}" src="${folder + imgName}" alt="${alt}" />`;
+    }
+%>

@@ -1,0 +1,32 @@
+
+<% statusHelper = (status, id, linkPrefix) => { 
+    let link = linkPrefix +'change-status/' + id + '/' + status;
+%> 
+    <% if(status == "active"){%>  
+        <a href="<%= link %> " class="active">active </a>
+    <%} else if (status == "inactive"){ %>
+        <a href="<%= link %> " class="inactive">inactive </a>
+    <%} %>
+
+<% } %> 
+
+<% statusBillHelper = (status, id, linkPrefix) => { 
+    let link = linkPrefix +'change-status/' + id + '/' + status;
+    let linkCancel = linkPrefix +'change-status/' + id + '/cancel' ;
+%> 
+    <% if(status == "pending"){%>  
+        <a href="<%= link %> " class="active">pending </a>
+    <%} else if (status == "intransit"){ %>
+        <a href="<%= link %> " class="active">in transit </a>
+    <%} else if(status == "completed"){ %>
+        <a href="<%= linkPrefix %> " class="active">completed </a>
+    <%} else if(status == "cancelled"){ %>
+        <a href="<%= linkPrefix %> " class="inactive">cancelled </a>
+    <%}%>
+    
+    <% if(status !== "completed" && status !== "cancelled"){%>  
+        <a href="<%= linkCancel %> " class="inactive">cancel </a>
+    <%}%>
+    
+
+<% } %> 

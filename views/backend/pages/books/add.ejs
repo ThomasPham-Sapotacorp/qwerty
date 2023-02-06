@@ -1,0 +1,198 @@
+
+<% 
+const type = 'books'; 
+const linkPrefix =systemConfig.prefixAdmin + `/${type}/`;
+const folderUpload = 'backend/images/books/';
+%>
+
+<% include ./../../helpers/selectbox %>
+<% include ./../../helpers/img %>
+
+<!-- <%= JSON.stringify(item) %>  -->
+
+<div class="form">
+    <div class="form-heading">
+        <h1>Add Item</h1>
+    </div>
+
+    <% if(errors) {%>
+        <div class="alert defeat add" style="display: none;">
+            <% errors.forEach((errors) => { %>
+            <span id = "<%= errors.param%>"><%= errors.msg%> </span><br>
+            <%})%>
+        </div>
+    <%} %> 
+    <div>
+        <% MenuCategories[1] %> 
+    </div>
+    <div class="form-content">
+        <div>
+            <h3>Form</h3>
+        </div>
+        <div>
+            <form action="<%= linkPrefix %>save/" method="POST" enctype="multipart/form-data">
+                <div>
+                    <div>
+                        <div class="form-group">
+                            <label>Name</label><span id="name"></span>
+                            <input class="form-control" id="name" name="name" type="text" onkeyup="ChangeToSlug();" value="<%= item.name%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Slug</label><span id="slug"></span>
+                            <input class="form-control" id="slug" name="slug" type="text" value="<%= item.slug%>">
+                        </div>
+                        <div class="form-group">  <!-- GroupID -->
+                            <label>Category</label><span id="category"></span>
+                            <%- selectHelper('category', MenuCategories, item.category)%>
+                        </div>
+                        <div class="form-group">
+                            <label>Tác giả</label><span id="author"></span>
+                            <input class="form-control" name="author" type="text" value="<%= item.author%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Nhà cung cấp</label><span id="supplier"></span>
+                            <input class="form-control" name="supplier" type="text" value="<%= item.supplier%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Nhà xuất bản</label><span id="publishing"></span>
+                            <input class="form-control" name="publishing" type="text" value="<%= item.publishing%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Năm xuất bản</label><span id="publishingYear"></span>
+                            <input class="form-control" name="publishingYear" type="month" value="<%= item.publishingYear%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Trọng lượng</label><span id="weight"></span>
+                            <input class="form-control" name="weight" type="text" value="<%= item.weight%>">
+                        </div> 
+                                               
+                    </div>
+                    <div>
+                        <div class="form-group">
+                            <label>Số trang</label><span id="page"></span>
+                            <input class="form-control" name="page" type="number" value="<%= item.page%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Hình thức</label><span id="form"></span>
+                            <select name="form" class="form-control">
+                                <option value="novalue">Choose</option>
+                                <option value="biacung" <%= (item.form == "biacung")? 'selected = "selected"' : '' %> >Bìa cứng</option>
+                                <option value="biamem" <%= (item.form == "biamem")? 'selected = "selected"' : '' %> >Bìa mềm</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Giá</label><span id="price"></span>
+                            <input class="form-control" name="price" type="number" value="<%= item.price%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Discount</label><span id="discount"></span>
+                            <input class="form-control" name="discount" type="number" value="<%= item.discount%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Mô tả</label><span id="description"></span>
+                            <input class="form-control" name="description" type="text" value="<%= item.description%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label><span id="status"></span>
+                            <select name="status" class="form-control">
+                                <option value="novalue">Choose</option>
+                                <option value="active" <%=(item.status == "active")? 'selected = "selected"' : '' %>>Active</option>
+                                <option value="inactive" <%= (item.status == "inactive")? 'selected = "selected"' : '' %>>Inactive</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ordering</label><span id="ordering"></span>
+                            <input class="form-control" name="ordering" type="number" value="<%= item.ordering%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Thumbnail</label><span id="thumbnail"></span>
+                            <input type="file" name="thumbnail" multiple onchange="readURL(this);">
+                            <% if(item.thumbnail) { %> 
+                                <div id="preview-images"></div>
+                                    <%item.thumbnail.forEach((thumbnail) =>{ %>
+                                        <%- imgHelper(folderUpload, thumbnail, item.name, "thumbnail") %>
+                                    <%})%>
+                                </div>
+                            <% } else{ %> 
+                                <div id="preview-images"></div>
+                            <% } %>
+                            
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div style="width: 100px; margin-left: 10px;">
+                    <input class="form-control" name="id" value="<%=item.id %>" type="hidden" >
+                    <input class="form-control" id="groupid" name="groupID" value="<%=item.group %>" type="hidden" >
+                    <input class="form-control" id="classid" name="classID" value="<%=item.class %>" type="hidden" >
+
+                    <% if(item.thumbnail) {%>
+                        <%item.thumbnail.forEach((thumbnail) =>{ %>
+                            <input class="form-control" name="imageOld" value="<%=thumbnail %>" type="hidden" >
+                        <%})%>
+                    <%}%>
+                    
+                            
+
+                    <button type="submit">Submit</button>
+                    <a type="button" href="<%= linkPrefix %>" class="button">Cancel</a>
+                </div>
+
+                
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+    
+    a = document.getElementsByClassName("alert")[0].getElementsByTagName("span");
+    b = document.getElementsByClassName("form-group");
+
+    for(let i = 0; i < a.length ; i++) {
+        
+        for(let j = 0; j < b.length; j++){
+            c = b[j].getElementsByTagName("span")[0];
+            
+            if ( a[i].id == c.id){
+                console.log
+                c.innerHTML = a[i].innerText;
+            } 
+        }
+    }
+
+    function getClass(cate){
+        let classID = cate.options[cate.selectedIndex].getAttribute('classid');
+        let groupID = cate.options[cate.selectedIndex].getAttribute('groupid');
+        
+        inputclass = document.getElementById('classid')
+        inputgroup = document.getElementById('groupid')
+
+        inputclass.value = classID
+        inputgroup.value = groupID
+    }
+    
+
+    
+    
+    function readURL(input) {
+		let preview = document.getElementById("preview-images");
+
+		let n = input.files.length;
+		for (let i = 0; i < n; i++){
+			let reader = new FileReader();
+			reader.onload = function(event) {
+				let img = document.createElement("img");
+				img.style.width = "auto";
+				img.style.height = "100px";
+				img.style.padding = "10px";
+				img.src = event.target.result;
+				preview.appendChild(img);
+			};
+            reader.readAsDataURL(input.files[i]);
+		}
+	}
+
+</script>

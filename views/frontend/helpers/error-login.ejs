@@ -1,0 +1,16 @@
+<% if (errors) { %>
+    <div class="alert alert-danger" role="alert">
+        <ul>
+            <% errors.forEach((errors) => { 
+                var arrWord = errors.param.toLowerCase().replace(/[^a-zA-Z0-9]/g, ' ').split(' ');
+                var result = arrWord.map( (val) => {
+                    return val.replace(val.charAt(0), val.charAt(0).toUpperCase());
+                });
+            %>
+                <li type="disc"><b><%= result.join(' ') %>:</b> <%= errors.msg%></li>
+            <% })%>
+
+        </ul>
+    </div>
+ 
+<% } %>

@@ -1,0 +1,73 @@
+<%
+    showMenuUser = (userInfo) => {
+        const linkLogin     = systemConfig.prefixFrontend + `/login`;
+        const linkLogout    = systemConfig.prefixFrontend + `/login/logout`;
+        const linkAdmin     = systemConfig.prefixAdmin + `/dashboard`;
+
+        let xhtmlMenuUser = '';
+        if(Object.keys(userInfo).length > 0) {
+            xhtmlMenuUser += 
+                `<div>
+                    <a href="/user">
+                        <i class="fas fa-user fa-lg greeniconcolor"></i>
+                        <span>${userInfo.name}</span>
+                    </a>
+                </div> `;
+
+            if(userInfo.username == 'admin'){
+                xhtmlMenuUser += 
+                    `<div>
+                        <a href="${linkAdmin}">
+                            <i class="fas fa-location-arrow fa-lg greeniconcolor"></i>
+                            <span>Admin</span>
+                        </a>
+                    </div> `;
+            }
+
+            xhtmlMenuUser += 
+                `<div>
+                    <a href="${linkLogout}">
+                        <i class="fas fa-sign-in-alt fa-lg greeniconcolor"></i>
+                        <span>Log out</span>
+                    </a>
+                </div>`;
+        }else {
+            xhtmlMenuUser += 
+                `<div class="login-top" >
+                    <div id="login">
+                        <i class="fas fa-sign-in-alt fa-lg greeniconcolor"></i>
+                        <span>Đăng nhập</span>
+                    </div>
+                    <div class="modal" id="modal" style="display: none;">
+                        <div class="modal-overlay" id="modal-overlay"></div>
+                        <div class="modal-body" id="modal-body">
+                            <div class="title">
+                                <h2 id='h2-signin' class="active" onclick="openTab(this, 'sign-in')"> Sign In </h2>
+                                <h2 id='h2-signup' class="inactive" onclick="openTab(this, 'sign-up')"> Sign Up </h2>
+                            </div>
+                                                        
+                            <form id="sign-in" action="/login" method="POST">
+                                <span id="login-err"></span>
+                                <input type="text" id="login" name="username" placeholder="username">
+                                <input type="password" id="password" name="password" placeholder="password">
+                                <input type="submit" value="Log In">
+                            </form>
+                            <form id="sign-up" class="active" action="/register" method="POST" style="display: none;">
+                                <input type="text" id="username" name="username" placeholder="username">
+                                <input type="password" id="password" name="password" placeholder="password">
+                                <span id="span-rp-pw" style="color: red"></span>
+                                <input type="password" id="password-repeat" name="password_repeat" placeholder="password-repeat">
+                                <input type="text" id="name" name="name" placeholder="name">
+                                <input type="number" id="phone" name="phone" placeholder="phone">
+                                <input type="text" id="address" name="address" placeholder="address">
+                                <input type="submit" value="Sign Up">
+                            </form>
+                
+                        </div>
+                    </div>
+                </div> `;
+        }
+        return xhtmlMenuUser;
+    }
+%>
+

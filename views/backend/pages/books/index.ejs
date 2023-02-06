@@ -1,0 +1,248 @@
+<% include ./../../helpers/status %> 
+<% include ./../../helpers/filter-status %> 
+<% include ./../../helpers/pagination %>
+<% include ./../../helpers/action %>
+<% include ./../../helpers/selectbox %>
+<% include ./../../helpers/img %>
+
+<% 
+    const type = 'books'; 
+    const linkPrefix =systemConfig.prefixAdmin + `/${type}/`;
+	const folderUpload = 'upload/' + type + '/';
+%>
+
+
+
+<div class=" title-page">
+	<span>Item</span>
+	<div>
+		<% statusFilterHelper(statusFilter, params, linkPrefix)%>
+	</div>
+	
+	<div class="sort dropdown">
+		<button id="sort" class="dropbtn">Sắp xếp</button>
+		<div id="sortDropdown" class="dropdown-content">
+			<a href="<%= linkPrefix +'sort/name/asc'%>">Sắp xếp theo tên (a - z)</a>
+			<a href="<%= linkPrefix +'sort/name/desc'%>">Sắp xếp theo tên (z - a)</a>
+			<a href="<%= linkPrefix +'sort/ordering/asc'%>">Sắp xếp theo ordering tăng dần</a>
+			<a href="<%= linkPrefix +'sort/ordering/desc'%>">Sắp xếp theo ordering giảm dần</a>
+		</div>
+	</div>
+
+	<div class="category dropdown">
+		<button id="category" class="dropCategory">category</button>
+		<div id="categoryDropdown" class="dropdown-content">
+			<% cateItems.forEach((item) => { 
+				let link = linkPrefix  + '?category='+ item.id;
+				if (params.search) link += '&search=' + params.search;
+				if (params.currentStatus) link += '&status=' + params.currentStatus;
+			%>
+				<a href="<%=link%>"><%= item.name%></a>
+			<%})%>   
+		</div>
+	</div>
+
+
+	<div class="box search_box " style=" padding-right: 30px; margin-left: auto;">
+		<form id="search" action="<%= linkPrefix + '?status=' + params.currentStatus + '&category=' + params.category %>" method="GET">
+
+			<input type="text" placeholder="Nhập tên sản phẩm" name="search" value="<%=params.search%>">
+			<button class="btn_search" type="submit" aria-label="tìm kiếm">
+				<i class="fas fa-search fa-sm greeniconcolor"></i>
+			</button>
+
+		</form>
+	</div>
+</div>
+
+
+
+
+<% Object.keys(messages).forEach( (type) => { %>
+	<div class="alert <%= type%>">
+		<% messages[type].forEach((messages) => { %>
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+			<strong><%= type%>!</strong>  <%= messages%>
+        <%})%>	
+	</div> 
+<% }) %> 
+
+ 
+<div class="content">
+	<form name="formit" action= "" method="post">
+		<div class="content-heading">
+
+            <%- actionHelper(linkPrefix) %>
+
+			<div class="add">
+				<a href="<%=linkPrefix + 'add/'%>" class="add"><span>Add</span></a>
+			</div>
+			
+		</div>
+		<div>
+			<table style="width: 100%;font-size: 13px; line-height: 25px;">
+				<thead>
+					<tr>
+						<th id="checkbox"><input type="checkbox" class="checkall"></th>
+						<th id="stt">STT</th>
+						<th id="name">Name</th>
+						<th id="thumbnail">Thumbnail</th>
+						<th id="category">Category</th>
+						<th id="ordering">Ordering</th>
+						<th id="status">Status</th>
+						<th id="action">Action</th>
+						<th id="detail">Detail</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% items.forEach( (item, i) => { %>
+						<tr>
+							<td >
+								<input type="checkbox" onchange="Ordering()" class="check" name="id" value="<%= item.id %>">
+							</td>
+							<td class="center"><%= i +1 %></td>
+							<td class="start"><%= item.name %></td>
+							<td> 
+								<%- imgHelper(folderUpload, item.thumbnail[0], item.name) %>
+							</td>
+							<td class="start"><%= item.category.name %></td>
+							<td class="center">
+								<input type="number" class="ordering" id="ordering" value="<%= item.ordering %>">
+							</td>
+							<td class="center">
+								<% statusHelper(item.status, item.id, linkPrefix)%>
+							</td>
+                            
+							<td>
+								<a href="<%= linkPrefix + 'add/' + item.id%>" class="edit">Edit</a>
+								<a href="<%=linkPrefix + 'delete/' + item.id%>" class="delete">Delete</a>
+							</td>
+                            <td>
+								<a class="xemthem">+</a>
+								<div class="detail-product" id="modal1">
+									<div class="detail-overlay" id="outside"></div>
+					
+									<div class="detail-body">
+										<span class="close">&times;</span>
+										<div class="product_content">
+											<div id="info" class=" product_view_tab_content" style=" border-bottom: 1px solid #777;">
+												<table class="table-detail" style="width:100%">
+													<tr>
+														<th>Mã hàng</th>
+														<td><%= item.id%></td>
+													</tr>
+													<tr>
+														<th>Created</th>
+														<td style="width: 170px">    
+															<i class="fas fa-user"></i> <%= item.created.user_name %> <br />
+															<i class="far fa-plus-square"></i> <%= moment(item.created.time).format(systemConfig.format_long_time) %> <br />
+														</td>
+													</tr>
+													<tr>
+														<th>Modified</th>
+														<td style="width: 170px">    
+															<i class="fas fa-user"></i> <%= item.modified.user_name %> <br />
+															<i class="fas fa-history"></i> <%= moment(item.modified.time).format(systemConfig.format_long_time) %> <br />
+														</td>
+													</tr>
+													<tr>
+														<th>Tên sản phẩm</th>
+														<td><%= item.name%></td>
+													</tr>
+													<tr>
+														<th>Slug</th>
+														<td><%= item.slug%></td>
+													</tr>
+													<tr>
+														<th>Thumbnail</th>
+														<td> 
+															<%item.thumbnail.forEach((thumbnail) =>{ %>
+																<%- imgHelper(folderUpload, thumbnail, item.name) %>
+															<%})%>
+														</td>
+													</tr>
+													<tr>
+														<th>Category</th>
+														<td><%= item.category.name%></td>
+													</tr>
+													<tr>
+														<th>Group</th>
+														<td><%= item.group.name%></td>
+													</tr>
+													<tr>
+														<th>Class</th>
+														<td><%= item.class.name%></td>
+													</tr>
+													<tr>
+														<th>Tác giả</th>
+														<td><%= item.author%></td>
+													</tr>
+													<tr>
+														<th>Giá</th>
+														<td><%= item.price%></td>
+													</tr>
+													<tr>
+														<th>Discount</th>
+														<td><%= item.discount%> %</td>
+													</tr>
+													<tr>
+														<th>Tên Nhà Cung Cấp</th>
+														<td><%= item.supplier%></td>
+													</tr>
+					
+													<tr>
+														<th>NXB</th>
+														<td><%= item.publishing%></td>
+													</tr>
+													<tr>
+														<th>Năm XB</th>
+														<td><%= item.publishingYear%></td>
+													</tr>
+													<tr>
+														<th>Trọng lượng (gr)</th>
+														<td><%= item.weight%></td>
+													</tr>
+													<tr>
+														<th>Số trang</th>
+														<td><%= item.page%></td>
+													</tr>
+													<tr>
+														<th>Hình thức</th>
+														<td><%= item.form%></td>
+													</tr>
+													<tr>
+														<th>Mô tả</th>
+														<td><%= item.description %></td>
+													</div>
+													</tr>
+													
+												</table>
+											</div>
+											
+					
+										</div>
+					
+					
+									</div>
+					
+								</div>
+							</td>
+						</tr>
+					<% }); %> 
+					
+					
+					
+	
+				</tbody>
+	
+			</table>
+	
+		</div>
+	</form>
+	
+	
+    <%- paginationHelper(params.pagination, linkPrefix, params.currentStatus, params.search)%>
+
+</div>
+
+<script src="/backend/scripts/book.js"></script>

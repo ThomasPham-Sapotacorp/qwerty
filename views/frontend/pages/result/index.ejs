@@ -1,0 +1,76 @@
+<% 
+	const BannerUpload  = 'upload/banners/';
+    const BookUpload    = 'upload/books/';
+    const linkPrefix	= systemConfig.prefixFrontend ;
+%> 
+<% include ./../../helpers/sidebar %> 
+
+<link rel="stylesheet" href="frontend/css/category.css">
+
+<div class="container">
+    <div class="sidebar_left">
+        <div class="category_menu">
+            <div>
+                <h3>Giá</h3>
+            </div>
+            <div class="category_list">
+                <div class="pr-ip">
+                    <input type="text" id="price_gte" name="price_gte" maxlength="14" placeholder="Min" class="price-input" value="">
+                    
+                    <input type="text" id="price_lte" name="price_lte" maxlength="14" placeholder="Max" class="price-input" value="">
+                </div>
+                        
+            </div>
+            <div class="xem_them">
+                <a id="submit-price" class="submit btn">Tìm</a>
+            </div>
+        </div>
+    </div>
+    <div class="main_body">
+        <div class="toolbar-top">
+            <div>
+                <div class="sorted">
+                    <h3>Sắp xếp theo :</h3>
+                    <div class="select-box">
+                        <select>
+                            <option value="0">Bán chạy tuần</option>
+                            <option value="1">Bán chạy tháng</option>
+                            <option value="2">Bán chạy năm</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+       
+        <div class="list_product">
+            <ul>
+                <% items.forEach((item) => { %>
+                    <li>
+                        <div class="item_show">
+                            <a href=<%='/' + item.slug %> >
+                                <img src= <%=BookUpload + item.thumbnail[0]%> alt="<%=item.name%>">
+                                <h3><%= item.name%></h3>
+                                <div class="price">
+                                    <strong class="price_js"><%= item.price * (100-item.discount) /100 %> đ</strong>
+                                    <span class="price_js"><%= item.price%></span>
+                                </div>
+                                <div class="ratingresult">
+                                    <i class="fas fa-star yellowiconcolor"></i>
+                                    <i class="fas fa-star yellowiconcolor"></i>
+                                    <i class="fas fa-star yellowiconcolor"></i>
+                                    <i class="fas fa-star yellowiconcolor"></i>
+                                    <i class="fas fa-star yellowiconcolor"></i>
+                                    <span>(0)</span>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                
+                <%}) %>  
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="frontend/scripts/result.js"></script>

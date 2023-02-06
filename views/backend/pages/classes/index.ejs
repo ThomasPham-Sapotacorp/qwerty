@@ -1,0 +1,119 @@
+<% include ./../../helpers/status %> 
+<% include ./../../helpers/filter-status %> 
+<% include ./../../helpers/pagination %>
+<% include ./../../helpers/action %>
+
+<% 
+    const type = 'classes'; 
+    const linkPrefix =systemConfig.prefixAdmin + `/${type}/`;
+%>
+
+
+<div class=" title-page">
+	<span>Item</span>
+	<div>
+		<% statusFilterHelper(statusFilter, params.search, linkPrefix)%>
+	</div>
+	
+	<div class="sort dropdown">
+		<button id="sort" class="dropbtn">Sắp xếp</button>
+		<div id="sortDropdown" class="dropdown-content">
+			<a href="<%= linkPrefix +'sort/name/asc'%>">Sắp xếp theo tên (a - z)</a>
+			<a href="<%= linkPrefix +'sort/name/desc'%>">Sắp xếp theo tên (z - a)</a>
+			<a href="<%= linkPrefix +'sort/ordering/asc'%>">Sắp xếp theo ordering tăng dần</a>
+			<a href="<%= linkPrefix +'sort/ordering/desc'%>">Sắp xếp theo ordering giảm dần</a>
+		</div>
+	</div>
+
+	<div class="box search_box " style=" padding-right: 30px; margin-left: auto;">
+		<form id="search" action="<%= linkPrefix + '?status=' + params.currentStatus%>" method="GET">
+			<input type="text" placeholder="Nhập tên sản phẩm" name="search" value="<%=params.search%>">
+			<button class="btn_search" type="submit" aria-label="tìm kiếm">
+				<i class="fas fa-search fa-sm greeniconcolor"></i>
+			</button>
+		</form>
+	</div>
+</div>
+
+
+<!-- <%= JSON.stringify(items) %> -->
+
+<% Object.keys(messages).forEach( (type) => { %>
+	<div class="alert <%= type%>">
+		<% messages[type].forEach((messages) => { %>
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+			<strong><%= type%>!</strong>  <%= messages%>
+        <%})%>	
+	</div> 
+<% }) %> 
+
+ 
+<div class="content">
+	<form name="formit" action= "" method="post">
+		<div class="content-heading">
+
+            <%- actionHelper(linkPrefix) %>
+
+			<div class="add">
+				<a href="<%=linkPrefix + 'add/'%>" class="add"><span>Add</span></a>
+			</div>
+			
+		</div>
+		<div>
+			<table style="width: 100%;font-size: 13px; line-height: 25px;">
+				<thead>
+					<tr>
+						<th id="checkbox"><input type="checkbox" class="checkall"></th>
+						<th id="stt">STT</th>
+						<th id="name">Name</th>
+						<th id="ordering">Ordering</th>
+						<th id="status">Status</th>
+                        <th>Created</th>
+                        <th>Modified</th>
+						<th id="action">Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<% items.forEach( (item, i) => { %>
+						<tr>
+							<td >
+								<input type="checkbox" onchange="Ordering()" class="check" name="id" value="<%= item.id %>">
+							</td>
+							<td class="center"><%= i +1 %></td>
+							<td class="start"><%= item.name %></td>
+							<td class="center">
+								<input type="number" class="ordering" id="ordering" value="<%= item.ordering %>">
+							</td>
+							<td class="center">
+								<% statusHelper(item.status, item.id, linkPrefix)%>
+							</td>
+                            <td style="width: 170px">    
+                                <i class="fas fa-user"></i> <%= item.created.user_name %> <br />
+                                <i class="far fa-plus-square"></i> <%= moment(item.created.time).format(systemConfig.format_long_time) %> <br />
+                            </td>
+                            <td style="width: 170px">    
+                                <i class="fas fa-user"></i> <%= item.modified.user_name %> <br />
+                                <i class="fas fa-history"></i> <%= moment(item.modified.time).format(systemConfig.format_long_time) %> <br />
+                            </td>
+							<td>
+								<a href="<%= linkPrefix + 'add/' + item.id%>" class="edit">Edit</a>
+								<a href="<%=linkPrefix + 'delete/' + item.id%>" class="delete">Delete</a>
+							</td>
+                            
+						</tr>
+					<% }); %> 
+					
+					
+					
+	
+				</tbody>
+	
+			</table>
+	
+		</div>
+	</form>
+	
+	
+    <%- paginationHelper(params.pagination, linkPrefix, params.currentStatus, params.search)%>
+
+</div>

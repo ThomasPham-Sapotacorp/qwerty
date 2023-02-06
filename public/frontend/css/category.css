@@ -1,0 +1,234 @@
+
+section {
+    margin: 125px auto 0px;
+}
+
+section>div.container{
+    display: flex;
+    padding-top: 10px;
+}
+
+section>div.container>div.sidebar_left{
+    flex: 2;
+    background: #fff;
+    padding: 0 10px;
+    border: 0;
+    box-shadow: 0 2px 3px rgba(33,33,33,.2); 
+}
+
+section>div.container>div.main_body{
+    flex: 7;
+    background: #fff;
+    margin-left: 15px;
+}
+
+
+.sidebar_left>div.category_menu{
+    border-bottom : 1px solid rgb(189, 189, 189) ;
+}
+
+.sidebar_left>div.category_menu>div.category_list{
+    padding-bottom: 5px;
+}
+
+.sidebar_left>div.category_menu>div>h3{
+    cursor: pointer;
+    text-transform: uppercase;
+    line-height: 100%;
+    padding: 10px 0;
+    text-align: left;
+    font-weight: 600;
+    margin-bottom: 0px;
+    font-size: 13px;
+}
+
+div.category_menu>div>a{
+    font-weight: bold;
+    font-size: 13px;
+    display: block;
+    padding: 5px 0;
+    text-transform: uppercase;
+}
+
+div.category_menu>div>a:nth-child(2){
+    padding-left: 10px;
+}
+
+
+.selected {
+    color: #F7941E !important;
+}
+
+.sidebar_left>div.category_menu>div>ul{
+    margin-left: 10px;
+}
+
+.sidebar_left>div.category_menu>div>ul>li{
+    color: #333;
+    line-height: 22px;
+    margin: 0 0 7px 10px;
+    text-align: left;
+    width: 100%;
+    position: relative;
+}
+
+.sidebar_left>div.category_menu>div>ul>li>a{
+    color: #666;
+    padding-right: 5px;
+    display: inline;
+    zoom: 1;
+}
+
+.sidebar_left>div>div.xem_them{
+    text-align: center;
+    padding: 0 0 10px 0;
+}
+
+.sidebar_left>div>div.xem_them>a{
+    font-size: 14px;
+    position: relative;
+    color: #F7941E;
+    font-weight: bold;
+}
+
+.sidebar_left>div>div.xem_them>a::after{
+    position: absolute;
+    content: '';
+    border: solid #F7941E;
+    border-width: 0 2px 2px 0;
+    display: inline-block;
+    padding: 2px;
+    transform: rotate(-90deg);
+    -webkit-transform: rotate(-315deg); 
+    top: 25%;
+    margin-left: 5px;
+}
+
+
+.main_body >.toolbar-top {
+    padding: 20px 20px 0 20px;
+}
+
+.main_body >.toolbar-top>div{
+    display: flex;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 0.5px solid rgb(206, 200, 200);
+}
+
+.main_body >.toolbar-top>div>.sorted{
+    display: flex;
+    align-items: center;
+}
+
+.select-box{
+    padding: 0 10px;
+}
+
+.select-box>select{
+    font-size: 13px;
+    padding: 10px;
+    color: #444;
+}
+
+.select-box>select>option{
+    font-size: 13px;
+    padding: 10px;
+    color: #444;
+    line-height: 18px;
+}
+
+.list_product>ul{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 5px;
+    padding: 0;
+}
+
+.list_product>ul>li{
+    width: 230px;
+}
+
+
+.item_show {
+    padding: 15px 5px 15px 5px;
+    margin: 10px;
+}
+
+.item_show:hover {
+    transition: box-shadow .3s;
+    border-radius:10px;
+    border: 0px ;
+    box-shadow: 0 2px 10px rgba(33,33,33,.2); 
+}
+
+
+.item_show>a>img {
+    display: block;
+    height: 175px;
+    width: auto !important;
+    margin: 15px auto;  
+    transition-duration: 0.5s; 
+}
+
+.item_show:hover >a>img {
+    transform: scale(1.048);
+}
+
+
+.item_show>a>h3 {
+    display: block;
+    margin: 0 10px;
+}
+
+.item_show .price {
+    padding: 0;
+    margin: 5px 10px 0;
+}
+
+.price strong {
+    display: inline-block;
+    vertical-align: middle;
+    overflow: hidden;
+    font-size: 16.5px;
+    color: #F7941E;
+    line-height: 15px;
+}
+
+.price span {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 12px;
+    text-decoration: line-through;
+    margin-left: 5px;
+    color: #333;
+}
+
+.item_show .ratingresult {
+    margin: 5px 10px 0;
+}
+
+.ratingresult>span {
+    color: #F39801 !important;
+    font-size: 12px;
+    margin-left: 2px;
+}
+
+.pr-ip{
+    display: flex;
+}
+
+input.price-input {
+    padding: 7px 10px;
+    width: 45%;
+}
+
+a.btn{
+    background-color: #F39801;
+    padding: 6px 20px;
+    text-decoration: none;
+    cursor: pointer;
+    margin: 5px 35%;
+    border-radius: 3px;
+    color: #fff !important;
+}

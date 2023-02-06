@@ -1,0 +1,131 @@
+
+<% 
+const type = 'users'; 
+const linkPrefix =systemConfig.prefixAdmin + `/${type}/`;
+const folderUpload = `upload/${type}/`;
+%>
+
+<% include ./../../helpers/selectbox %>
+<% include ./../../helpers/img %>
+
+<!-- <%= JSON.stringify(item) %>  -->
+
+<div class="form">
+    <div class="form-heading">
+        <h1>Add Item</h1>
+    </div>
+
+    <% if(errors) {%>
+        <div class="alert defeat add" style="display: none;">
+            <% errors.forEach((errors) => { %>
+            <span id = "<%= errors.param%>"><%= errors.msg%> </span><br>
+            <%})%>
+        </div>
+    <%} %> 
+            
+    <div class="form-content">
+        <div>
+            <h3>Form</h3>
+        </div>
+        <div>
+            <form action="<%= linkPrefix %>save/" method="POST" enctype="multipart/form-data">
+                <div>
+                    <div>
+                        <div class="form-group">
+                            <label>Name</label><span id="name"></span>
+                            <input class="form-control" id="name" name="name" type="text" value="<%= item.name%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Username</label><span id="username"></span>
+                            <input class="form-control" id="username" name="username" type="text" value="<%= item.username%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label><span id="password"></span>
+                            <input class="form-control" id="password" name="password" type="text" value="<%= item.password%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label><span id="phone"></span>
+                            <input class="form-control" id="phone" name="phone" type="number" value="<%= item.phone%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Address</label><span id="address"></span>
+                            <input class="form-control" id="address" name="address" type="text" value="<%= item.address%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Admin</label><span id="admin"></span>
+                            <select name="admin" class="form-control">
+                                <option value="novalue">Choose</option>
+                                <option value="admin" <%=(item.admin == "admin")? 'selected = "selected"' : '' %>>Admin</option>
+                                <option value="customer" <%= (item.admin == "customer")? 'selected = "selected"' : '' %>>Customer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Avatar</label><span id="avatar"></span>
+                            <input type="file" name="avatar" multiple onchange="readURL(this);">
+                            <div id="preview-images"></div>
+                            <% if(item.avatar) { %> 
+                                    <%- imgHelper(folderUpload, item.avatar, item.name, 'avatar') %>
+                                </div>
+                            <% } %> 
+                        </div>
+
+                    </div>
+                </div>
+                
+                <div style="width: 100px; margin-left: 10px;">
+                    <input class="form-control" name="imageOld" value="<%=item.avatar %>" type="hidden" >
+                    <input class="form-control" name="id" value="<%=item.id %>" type="hidden" >
+                    <button type="submit">Submit</button>
+                    <a type="button" href="<%= linkPrefix %>" class="button">Cancel</a>
+                </div>
+
+                
+            </form>
+        </div>
+    </div>
+    
+</div>
+
+<script>
+    
+    a = document.getElementsByClassName("alert")[0].getElementsByTagName("span");
+    b = document.getElementsByClassName("form-group");
+
+    for(let i = 0; i < a.length ; i++) {
+        
+        for(let j = 0; j < b.length; j++){
+            c = b[j].getElementsByTagName("span")[0];
+            
+            if ( a[i].id == c.id){
+                c.innerHTML = a[i].innerText;
+            } 
+        }
+    }
+
+    
+    
+    function readURL(input) {
+		let preview = document.getElementById("preview-images");
+
+		let n = input.files.length;
+		for (let i = 0; i < n; i++){
+			let reader = new FileReader();
+			reader.onload = function(event) {
+				let img = document.createElement("img");
+				img.style.width = "auto";
+				img.style.height = "100px";
+				img.style.padding = "10px";
+				img.src = event.target.result;
+				preview.appendChild(img);
+			};
+            reader.readAsDataURL(input.files[i]);
+		}
+	}
+
+</script>
+
+<style>
+    .avatar{
+        width: 250px;
+    }
+</style>

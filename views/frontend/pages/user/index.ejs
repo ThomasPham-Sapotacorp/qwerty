@@ -1,0 +1,248 @@
+<% 
+	const AvatarUpload  = 'upload/users/';
+    const linkPrefix	= `/`+systemConfig.prefixBlog ;
+%> 
+
+    <div class="title">
+        <i class="fas fa-user-edit fa-3x"></i>
+        <h2>Thông tin người dùng</h2>
+    </div>  
+
+    <% if(errors) {%>
+        <div class="alert defeat add" style="display: none;">
+            <% errors.forEach((errors) => { %>
+            <span id = "<%= errors.param%>"><%= errors.msg%> </span><br>
+            <%})%>
+        </div>
+    <%} %> 
+
+    <div class="info">
+        <div class="user-info">
+            <img class="avatar" src="<%= AvatarUpload + userInfo.avatar %> " alt="">
+            <div style="display: inline-block;">
+                <div class='btn-changePw'>Đổi mật khẩu</div>
+                
+                <div class="modal" id="cpw" style="display: none;">
+                    <div class="modal-overlay" id="modal-overlay"></div>
+                    <div class="modal-body cpw" id="modal-body" style="height: 250px; padding-top: 10px;">
+                                                                       
+                        <form id="changePw" action="user/change-password" method="post">
+                            <span id="curPw"></span>
+                            <input type="text" name="curPw" class="fll"  id="" placeholder="Nhập mật khẩu hiện tại">
+                            <span id="newPw"></span>
+                            <input type="text" name="newPw" class="fll"  id="" placeholder="Nhập mật khẩu mới">
+                            <span id="repeatPw"></span>
+                            <input type="text" name="repeatPw" class="fll"  id="" placeholder="Nhập lại mật khẩu">
+                            <button style="background-color: aqua; border-radius: 10px; width: 40%; height: 12%; margin: 10px;">Đổi mật khẩu</button>
+                        </form>
+            
+                    </div>
+                </div>
+            </div>
+            <table>
+                <tr>
+                    <th><span>Tên người dùng</span></th>
+                    <td><span><%= userInfo.name%></span></td>
+                </tr>
+                <tr>
+                    <th><span>Tên đăng nhập</span></th>
+                    <td><span><%= userInfo.username%></span></td>
+                </tr>
+                <tr>
+                    <th><span>Số điện thoại</span></th>
+                    <td><span><%= userInfo.phone%></span></td>
+                </tr>
+                <tr>
+                    <th><span>Địa chỉ</span></th>
+                    <td><span><%= userInfo.address%></span></td>
+                </tr>
+            </table>
+            <table class="cart">
+                <tr>
+                    <th><span>Tổng số đơn hàng đang chuẩn bị</span></th>
+                    <td><span><%= cartInfo.pending %></span></td>
+                </tr>
+                <tr>
+                    <th><span>Tổng số đơn hàng đang giao</span></th>
+                    <td><span><%= cartInfo.intransit %></span></td>
+                </tr>
+                <tr>
+                    <th><span>Tổng số đơn hàng đã hoàn thành</span></th>
+                    <td><span><%= cartInfo.completed %></span></td>
+                </tr>
+                <tr>
+                    <th><span>Tổng số đơn hàng đã hủy</span></th>
+                    <td><span><%= cartInfo.cancelled %></span></td>
+                </tr>
+            </table>
+
+            
+        </div>
+        <div class="cart-info">
+            <div>
+                <h2 style="font-size: 25px;">Đơn hàng của bạn</h2>
+            </div>
+            <div style="margin-top: 25px">
+                <table>
+                    <tr>
+                        <th><span>Tổng số đơn hàng đang chuẩn bị</span></th>
+                        <td><span><%= cartInfo.pending %></span></td>
+                    </tr>
+                    <tr>
+                        <th><span>Tổng số đơn hàng đang giao</span></th>
+                        <td><span><%= cartInfo.intransit %></span></td>
+                    </tr>
+                    <tr>
+                        <th><span>Tổng số đơn hàng đã hoàn thành</span></th>
+                        <td><span><%= cartInfo.completed %></span></td>
+                    </tr>
+                    <tr>
+                        <th><span>Tổng số đơn hàng đã hủy</span></th>
+                        <td><span><%= cartInfo.cancelled %></span></td>
+                    </tr>
+                </table>
+                
+            </div>
+            <%if(fct){%>
+                <div id="source" style="display: none;"><%= fct %> </div>
+            <%} %> 
+            
+        </div>
+    </div>
+
+    
+    
+
+
+<style>
+
+    section {
+        margin: 140px auto 0px;
+        background-color: #fff;
+    }
+    .title {
+        text-align: center;
+        align-items: center;
+    }
+    .title>h2{
+        font-size: 40px;
+        margin: 15px 10px;
+    }
+
+    .info{
+        display: flex;
+        justify-content: space-between;
+       
+    }
+
+    .info > div{
+        width: 500px;
+        margin: 10px 20px;
+    }
+
+    img.avatar{
+        height: 250px;
+        padding: 0 125px;
+    }
+
+    table{
+        width: 100%;
+        margin: 10px 0px;
+        border-collapse: collapse;
+    }
+    tr{
+        height: 40px;
+    }
+    th{
+        width: 150px;
+    }   
+    th>span{
+        float: left;
+        margin-left: 15px;
+    }
+    td{
+        float: left;
+        margin-left: 15px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        line-height: 25px;
+    } 
+    tr:nth-child(2n+1){
+        background-color: aliceblue;
+    }
+    tr:nth-child(2n){
+        background-color: antiquewhite;
+    }
+
+    .btn-changePw{
+        cursor: pointer;
+        background-color: #4CAF50;
+        color: white;
+        padding: 3px 25px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 2px 3px cyan;
+        margin: 10px 0;
+        border-radius: 4px;
+    }
+
+    .dt{
+        font-size: 15px;
+        line-height: 25px;
+    }
+
+    .cart th{
+        width: 400px;
+    }
+
+    form#changePw>span{
+        float: left;
+        margin-left: 15px;
+        color: red;
+        font-size: 15px;
+    }
+
+</style>
+
+<script>
+    let btn     = document.getElementsByClassName('btn-changePw')[0];
+    let modal   = document.getElementById('cpw');
+    let outside = document.getElementById('modal-overlay');
+    btn.addEventListener('click', function(){
+        modal.style.display = "block"
+    })
+    outside.addEventListener('click', function(){
+        modal.style.display = "none"
+    })
+
+    let repeatPw = document.getElementsByName('repeatPw')[0];
+    let spanRepeat = document.getElementById('repeatPw');
+    repeatPw.addEventListener('keyup', function(){
+        let newPwText       = document.getElementsByName('newPw')[0].value;
+        let repeatPwText    = document.getElementsByName('repeatPw')[0].value;
+        if(newPwText !== repeatPwText){
+            spanRepeat.innerHTML = 'Vui lòng nhập lại'
+        }else{
+            spanRepeat.innerHTML = ''
+        }
+    })
+
+    a = document.getElementsByClassName("alert")[0].getElementsByTagName("span");
+    b = document.getElementById("changePw").getElementsByTagName("span");
+    let source = document.getElementById('source').innerText
+
+    for(let i = 0; i < a.length ; i++) {
+        for(let j = 0; j < b.length; j++){
+            c = b[j];
+            if ( a[i].id == c.id){
+                c.innerHTML = a[i].innerText;
+                eval(source)
+            } 
+        }
+    }
+
+
+
+
+</script>

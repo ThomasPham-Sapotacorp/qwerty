@@ -1,0 +1,32 @@
+<% 
+    const linkLogout    = systemConfig.prefixFrontend + `/login/logout`; 
+    const folderUpload  = 'upload/users/';
+%> 
+
+<header>
+    <div class="container" style="width: 1200px">
+        <div>
+
+            <div class="logo">
+                <a href="#">
+                    <img src="thn.jpg"
+                        alt="FAHASA.COM">
+                </a>
+            </div>
+            <div class="menubar">
+                <div class="user">
+                    <div class="avatar">
+                        <img src= <%= folderUpload + userInfo.avatar %> alt="">
+                    </div>
+                    <div class="info">
+                        <span class="name"><%= userInfo.name %> </span>
+                        <span><%= userInfo.admin %></span>
+                    </div>
+                    <div>
+                        <a style="color: red;" href= <%= linkLogout %> ><i class="fas fa-sign-out-alt fa-lg"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

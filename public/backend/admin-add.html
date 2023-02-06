@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="public-admin/css/base.css">
+    <link rel="stylesheet" href="public-admin/css/main.css">
+    <link rel="stylesheet" href="public/css/fontawesome/css/all.css">
+    <script src="public-admin/scripts/jquery.min.js"></script>
+    <title>Admin</title>
+</head>
+
+<body>
+    <header>
+        <div class="container" style="width: 1200px">
+            <div>
+
+                <div class="logo">
+                    <a href="#">
+                        <img src="https://cdn0.fahasa.com/skin/frontend/ma_vanese/fahasa/images/fahasa-logo.png"
+                            alt="FAHASA.COM">
+                    </a>
+                </div>
+                <div class="box search_box ">
+                    <form id="search" action="#" method="get">
+                        <input type="text" placeholder="Nhập tên sản phẩm" id="fname" name="fname" value="">
+                        <button class="btn_search" type="submit" aria-label="tìm kiếm"><i
+                                class="fas fa-search fa-lg greeniconcolor"></i></button>
+                    </form>
+                </div>
+                <div class="menubar">
+                    <div class="user">
+                        <div class="avatar">
+                            <img src="public-admin/images/Thanh.jpeg" alt="">
+                        </div>
+                        <div class="info">
+                            <span class="name">Phạm Tiến Thành</span>
+                            <span>Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section style="margin-top: 0px;">
+        <div class="sidebar">
+            <div class="menu-bar">
+                <ul>
+                    <li class="active">
+                        <a>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                           Item
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            Article
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                           Category
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            Group
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="container"">
+            <div class="form">
+                <div class="form-heading">
+                    <h1>Add Item</h1>
+                </div>
+                <div class="form-content">
+                    <div>
+                        <h3>Form</h3>
+                    </div>
+                    <div>
+                        <form action="">
+                            <div>
+                                <div>
+                                    <div class="form-group">
+                                        <span>Name</span>
+                                        <input class="form-control" name="name" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Slug</span>
+                                        <input class="form-control" name="slug" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Nhà cung cấp</span>
+                                        <input class="form-control" name="ncc" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Nhà xuất bản</span>
+                                        <input class="form-control" name="nxb" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Năm xuất bản</span>
+                                        <input class="form-control" name="namxb" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Trọng lượng</span>
+                                        <input class="form-control" name="trongluong" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Kích thước bao bì</span>
+                                        <input class="form-control" name="kichthuoc" type="text">
+                                    </div>
+                                    
+                                </div>
+                                <div>
+                                    <div class="form-group">
+                                        <span>Số trang</span>
+                                        <input class="form-control" name="sotrang" type="number">
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Hình thức</span>
+                                        <select name="status" class="form-control">
+                                            <option value="novalue">Choose</option>
+                                            <option value="active">Bìa cứng</option>
+                                            <option value="inactive">Bìa mềm</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Giá</span>
+                                        <input class="form-control" name="gia" type="number">
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Discount</span>
+                                        <input class="form-control" name="disount" type="number">
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Mô tả</span>
+                                        <input class="form-control" name="mota" type="text">
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Category</span>
+                                        <select name="status" class="form-control">
+                                            <option value="novalue">Choose</option>
+                                            <option value="active">Manga</option>
+                                            <option value="inactive">Tiểu thuyết</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <span>Status</span>
+                                        <select name="status" class="form-control">
+                                            <option value="novalue">Choose</option>
+                                            <option value="active">Active</option>
+                                            <option value="inactive">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div style="width: 100px; margin-left: 10px;">
+                                <button type="submit">Submit</button>
+                                <button>Submit</button>
+                            </div>
+                            
+
+
+                        </form>
+                    </div>
+                </div>
+                
+            </div>
+            
+        </div>
+    </section>
+</body>
+<script>
+    $(document).ready(function () {
+        $('.icon-menu-bar').click(function () {
+            $('.icon-menu-bar').toggleClass('active')
+            $('.menu-bar').toggleClass('active')
+        })
+    })
+</script>
+
+</html>

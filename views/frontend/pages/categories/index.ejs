@@ -1,0 +1,89 @@
+<% 
+	const BannerUpload  = 'upload/banners/';
+    const BookUpload    = 'upload/books/';
+    const linkPrefix	= systemConfig.prefixFrontend ;
+%> 
+<% include ./../../helpers/sidebar %> 
+
+<link rel="stylesheet" href="frontend/css/category.css">
+
+
+<div class="breadcrumb">
+    <div class="container">
+        <ol class="breadcrumb">
+            <% if(items.length > 0) {%>
+                <li><a href="/">Trang chủ</a></li>
+                <li><a href="/<%= items[0].class.slug %> "> <%= items[0].class.name %> </a></li>
+                <%if(sidebar.type == 'group'){%>
+                    <li><a href="/<%= items[0].group.slug %> "> <%= items[0].group.name %> </a></li>
+                <%}else if(sidebar.type == 'category'){%>
+                    <li><a href="/<%= items[0].group.slug %> "> <%= items[0].group.name %> </a></li>
+                    <li><a href="/<%= items[0].category.slug %> "> <%= items[0].category.name %> </a></li>
+                <%} %> 
+
+            <%}%>
+          
+        </ol>
+    </div>
+</div>
+<div class="container">
+    <div class="sidebar_left">
+        <%- SidebarMenu(sidebar, items) %> 
+    </div>
+    <div class="main_body">
+        <div class="toolbar-top">
+            <div>
+                <div class="sorted">
+                    <h3>Sắp xếp theo :</h3>
+                    <div class="select-box">
+                        <select>
+                            <option value="0">Bán chạy tuần</option>
+                            <option value="1">Bán chạy tháng</option>
+                            <option value="2">Bán chạy năm</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="pager">
+                    <div class="select-box">
+                        <select>
+                            <option value="0">24 Sản phẩm</option>
+                            <option value="1">12 Sản phẩm</option>
+                            <option value="2">48 Sản phẩm</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+       
+        <div class="list_product">
+            <ul>
+                <% items.forEach((item) => { %>
+                    <li>
+                        <div class="item_show">
+                            <a href=<%='/' + item.slug %> >
+                                <img src= <%=BookUpload + item.thumbnail[0]%> alt="<%=item.name%>">
+                                <h3><%= item.name%></h3>
+                                <div class="price">
+                                    <strong class="price_js"><%= item.price * (100-item.discount) /100 %> đ</strong>
+                                    <span class="price_js"><%= item.price%></span>
+                                </div>
+                                <div class="ratingresult">
+                                    <i class="fas fa-star yellowiconcolor"></i>
+                                    <i class="fas fa-star yellowiconcolor"></i>
+                                    <i class="fas fa-star yellowiconcolor"></i>
+                                    <i class="fas fa-star yellowiconcolor"></i>
+                                    <i class="fas fa-star yellowiconcolor"></i>
+                                    <span>(0)</span>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                
+                <%}) %>  
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="frontend/scripts/category.js"></script>
